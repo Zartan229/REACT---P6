@@ -50,6 +50,23 @@ h1 {
 .photographer_section article a h2 {
     color: #D3573C;
     font-size: 36px;
+    margin-bottom: unset;
+}
+
+.photographer_section article p{
+    margin-top: unset;
+    margin-bottom: unset;
+}
+
+.photographer_section article h3{
+    margin-top: unset;
+    margin-bottom: unset;
+    color: #D3573C;
+}
+
+.photographer_section article :nth-child(4){
+    font-size: 13px;
+    color: gray;
 }
 
 .photographer_section article a img {

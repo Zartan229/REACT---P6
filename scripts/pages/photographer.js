@@ -1,3 +1,5 @@
+import { MediaFactory } from "../factory/mediaFactory.js";
+
 // Function to extract the photographer ID from the URL
 async function GrabId() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -20,10 +22,6 @@ async function getMediaByPhotographerId() {
     const filteredMedia = data.media.filter((media) => media.photographerId == id);
     const filterPhotographer = data.photographers.find((photographer) => photographer.id == id);
 
-    // Process the filtered data
-    console.log(filteredMedia);
-    console.log(filterPhotographer);
-
     return { filteredMedia, filterPhotographer }; // Return the filtered data
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
@@ -31,11 +29,13 @@ async function getMediaByPhotographerId() {
   }
 }
 
+
+
 async function showMediaPhotographer() {
   try {
     const { filteredMedia, filterPhotographer } = await getMediaByPhotographerId();
 
-    console.log(filteredMedia);
+
     const picture = `assets/photographers/${filterPhotographer.portrait}`;
 
     const box = document.querySelector(".photograph-header");
@@ -76,6 +76,7 @@ async function showMediaPhotographer() {
 
     const button = document.createElement("button");
     button.classList.add("dropdown");
+    button.setAttribute("aria-haspopup", "true");
     button.textContent = "Popularité";
 
     label.insertAdjacentElement("afterend", divDrop);
@@ -95,85 +96,98 @@ async function showMediaPhotographer() {
     ul.appendChild(li2);
     ul.appendChild(li3);
 
-
-
-
-
     // Add a click event listener to the ul
     divDrop.addEventListener("click", function (event) {
-      if (event.target.tagName === "LI") {
-        // Check if the clicked element is an li
-        const clickedLi = event.target;
-        button.textContent = clickedLi.textContent; // Update the button text
-        ul.style.display = "none"; // Close the ul by hiding it
-      }
-    });
-
-    // Add a click event listener to the button
-    button.addEventListener("click", function () {
       if (ul.style.display === "flex") {
         ul.style.display = "none";
       } else {
         ul.style.display = "flex";
       }
+      if (event.target.tagName === "LI") {
+        const clickedLi = event.target;
+        button.textContent = clickedLi.textContent; // Update the button text
+
+        // Sort the media based on the selected option
+        switch (clickedLi.textContent) {
+          case "Popularité":
+            filteredMedia.sort((a, b) => b.likes - a.likes);
+            break;
+          case "Date":
+            filteredMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
+            break;
+          case "Titre":
+            filteredMedia.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          default:
+            // Default to sorting by popularity
+            filteredMedia.sort((a, b) => b.likes - a.likes);
+        }
+
+        // Re-render the sorted media
+        renderMedia(filteredMedia);
+      }
     });
 
-
-
-
-
-    
-
-    const divImage = document.createElement('div');
+    const divImage = document.createElement("div");
     divImage.classList.add("divImage");
     divSort.insertAdjacentElement("afterend", divImage);
-  
 
-    const photographerName = filterPhotographer.name; 
-    
-    var name = photographerName.split(' ')[0];
-    
-    var modifiedName = name.replace(/-/g, ' ');
-    
-    console.log(modifiedName);
+    const photographerName = filterPhotographer.name;
+
+    var name = photographerName.split(" ")[0];
+
+    var modifiedName = name.replace(/-/g, " ");
+
     var totalLikes = 0;
 
-    for (var i = 0; i < filteredMedia.length; i++) {
-      const image = filteredMedia[i].image;
-      const imgDiv = document.createElement("div");
-      const imgTag = document.createElement("img");
-      const imgDivText = document.createElement("div");
-      imgDivText.classList.add("imgDivText");
-      const imgDivIcon = document.createElement("div");
-      imgDivIcon.classList.add("imgDivIcon")
-      const imgTitle = document.createElement("h4");
-      const imgLikes = document.createElement("p");
-      imgLikes.textContent = filteredMedia[i].likes;
-      const imgIcon = document.createElement("img")
-      imgIcon.src = 'assets/icons/heart.svg'
-      const imgGen = `assets/images/${modifiedName}/${image}`;
-      imgTag.src = imgGen;
-      imgTag.classList.add("imgDesign");
-      imgTag.setAttribute('id', 'newImgTag');
-      imgTag.alt = filteredMedia[i].title;
-      imgTitle.textContent = filteredMedia[i].title;
-      imgTag.onclick = function(event) {
-        openLightbox(event, this);
-      };
-      totalLikes = totalLikes + filteredMedia[i].likes
-      
-      
-      
-      divImage.appendChild(imgDiv);
-      imgDiv.appendChild(imgTag);
-      imgDiv.appendChild(imgDivText);
-      imgDivText.appendChild(imgTitle);
-      imgDivText.appendChild(imgDivIcon);
-      imgDivIcon.appendChild(imgLikes);
-      imgDivIcon.appendChild(imgIcon);
+    // Initial render of media based on default sorting (by popularity)
+    renderMedia(filteredMedia);
+
+    function renderMedia(filteredMedia) {
+      // Clear existing media items
+      divImage.innerHTML = "";
+
+      for (var i = 0; i < filteredMedia.length; i++) {
+        const mediaFactoryInstance = new MediaFactory(filteredMedia[i], modifiedName, totalLikes);
+
+        /*  const image = filteredMedia[i].image;
+        const imgDiv = document.createElement("article");
+        const imgTag = document.createElement("img");
+        imgTag.alt = filteredMedia[i].title;
+        const imgDivText = document.createElement("div");
+        imgDivText.classList.add("imgDivText");
+        const imgDivIcon = document.createElement("div");
+        imgDivIcon.classList.add("imgDivIcon");
+        const imgTitle = document.createElement("h4");
+        const imgLikes = document.createElement("p");
+        imgLikes.textContent = filteredMedia[i].likes;
+        const imgIcon = document.createElement("img");
+        imgIcon.alt = "Like";
+        imgIcon.setAttribute("id", "ImgIconClick");
+        imgIcon.src = "assets/icons/heart.svg";
+        const imgGen = `assets/images/${modifiedName}/${image}`;
+        imgTag.src = imgGen;
+        imgTag.classList.add("imgDesign");
+        imgTag.setAttribute("id", "newImgTag");
+        imgTag.alt = filteredMedia[i].title;
+        imgTitle.textContent = filteredMedia[i].title;
+        imgTag.onclick = function (event) {
+          openLightbox(event, this);
+        };
+      console.log(totalLikes)
+         */ totalLikes = totalLikes + filteredMedia[i].likes;
+         divImage.appendChild(mediaFactoryInstance.imgDiv);
+      /* divImage.appendChild(imgDiv);
+          imgDiv.appendChild(imgTag);
+        imgDiv.appendChild(imgDivText);
+        imgDivText.appendChild(imgTitle);
+        imgDivText.appendChild(imgDivIcon);
+        imgDivIcon.appendChild(imgLikes);
+        imgDivIcon.appendChild(imgIcon);
+      */
+      }
     }
 
-    console.log(totalLikes)
     const rightBottomDiv = document.createElement("div");
     rightBottomDiv.classList.add("rightBottomDiv");
 
@@ -182,28 +196,24 @@ async function showMediaPhotographer() {
 
     const h6 = document.createElement("h6");
     h6.textContent = totalLikes;
+    h6.classList.add("countLike");
     const imgBlackHeart = document.createElement("img");
-    imgBlackHeart.src = 'assets/icons/heartBlack.svg'
-    imgBlackHeart.alt = 'Coeur noir, total favoris'
+    imgBlackHeart.src = "assets/icons/heartBlack.svg";
+    imgBlackHeart.alt = "Coeur noir, total favoris";
 
-    const pEuro = document.createElement("p")
-    pEuro.textContent = filterPhotographer.price + " / jour"
+    const pEuro = document.createElement("p");
+    pEuro.textContent = filterPhotographer.price + " / jour";
 
-    const main = document.querySelector("main")
+    const main = document.querySelector("main");
     main.insertAdjacentElement("afterend", rightBottomDiv);
-
 
     rightBottomDiv.appendChild(divFlex);
     divFlex.appendChild(h6);
     divFlex.appendChild(imgBlackHeart);
     rightBottomDiv.appendChild(pEuro);
-
-
-
   } catch (error) {
     console.error("There was a problem:", error);
   }
-
 }
 
 showMediaPhotographer();
