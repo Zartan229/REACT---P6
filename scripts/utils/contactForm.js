@@ -29,6 +29,26 @@ function displayModal() {
     fieldsAdded = true;
   }
 
+  document.querySelectorAll("body *:not(#contact_modal *)").forEach(function (element) {
+    element.setAttribute("tabindex", "-1");
+  });
+
+  // Set tabindex for modal elements to 0
+  const modalElements = document.querySelectorAll("#contact_modal *");
+  modalElements.forEach(function (element) {
+    element.setAttribute("tabindex", "0");
+  });
+
+  // Add focus event listener to the modal
+  modal.addEventListener("focusout", function (event) {
+    const firstInput = document.getElementById("prenom"); // Replace with the ID of the first input field
+    if (!modal.contains(event.relatedTarget)) {
+      // If the focus leaves the modal, set focus back to the first input field
+      firstInput.focus();
+    }
+  });
+
+
   // Function to create a field (label + input or textarea)
   function createField(labelText, inputName, isTextarea) {
     var div = document.createElement("div");
@@ -66,7 +86,7 @@ function displayModal() {
   window.addEventListener("click", function (event) {
     const modal = document.getElementById("contact_modal");
     if (event.target === modal) {
-      modal.style.display = "none";
+      closeModal()
     }
   });
 
@@ -74,7 +94,7 @@ function displayModal() {
   window.addEventListener("keydown", function (event) {
     const modal = document.getElementById("contact_modal");
     if (event.key === "Escape" && modal.style.display === "block") {
-      modal.style.display = "none";
+      closeModal()
     }
   });
 
@@ -93,6 +113,12 @@ function displayModal() {
 function closeModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
+
+  document.querySelectorAll("body *").forEach(function (element) {
+    element.removeAttribute("tabindex");
+    element.setAttribute('tabindex', '0');
+    
+  })
 }
 
 function buttonModal(event) {

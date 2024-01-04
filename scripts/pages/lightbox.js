@@ -12,6 +12,17 @@ function openLightbox(event, clickedElement) {
     overlay = document.createElement("div"); //  Créer un élément div pour la superposition de la lightbox.
     overlay.className = "lightboxOverlay"; // Ajouter une classe CSS à la superposition.
     overlay.onclick = closeLightbox; // Associer la fonction closeLightbox à un clic sur la superposition.
+    document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
+      element.setAttribute("tabindex", "-1");
+    });
+  
+    // Set tabindex for modal elements to 0
+    const modalElements = document.querySelectorAll(".lightboxOverlay *");
+    modalElements.forEach(function (element) {
+      element.setAttribute("tabindex", "0");
+    });
+
+
     document.body.appendChild(overlay); // Ajouter la superposition à la fin du corps du document.
 
     // Créer le conteneur de la lightbox
@@ -77,17 +88,18 @@ function openLightbox(event, clickedElement) {
 
   mainElement.focus();
 
-  // Function to handle arrow key navigation
-  function handleArrowKeys(event) {
-    switch (event.key) {
-      case "ArrowLeft":
-        showPrevImage();
-        break;
-      case "ArrowRight":
-        showNextImage();
-        break;
-    }
+// Function to handle arrow key navigation
+function handleArrowKeys(event) {
+  console.log(event);
+  switch (event.key) {
+    case "4":
+      showPrevImage();
+      break;
+    case "6":
+      showNextImage();
+      break;
   }
+}
 
   // Event listener for arrow key navigation
   document.addEventListener("keydown", function (event) {
@@ -235,6 +247,9 @@ function showNextImage() {
 // Fonction JavaScript pour fermer la lightbox
 function closeLightbox(event) {
   // Vérifie si l'élément ciblé par l'événement a la classe CSS 'lightbox-container'
+  document.querySelectorAll("body *").forEach(function (element) {
+    element.setAttribute('tabindex', '0');
+  })
   if (event.target.classList.contains("lightboxContainer") || event.key === 'Escape') {
     // Empêche le comportement de clic par défaut (par exemple, empêche un lien de se comporter comme un lien normal)
     event.preventDefault();

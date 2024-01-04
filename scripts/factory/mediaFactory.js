@@ -21,33 +21,33 @@ export class MediaFactory {
         }
 
         const mediaSource = currentMedia;
-    //    console.log('mediaType:', mediaType);
-    //    console.log('mediaSource:', mediaSource);
-
-    //    console.log(mediaSource);
-    //    console.log(this.media);
-
         const mediaElement = createdElement;
         mediaElement.alt = this.media.title;
         mediaElement.classList.add('imgDesign');
         mediaElement.setAttribute('id', 'newImgTag');
         mediaElement.src = `assets/images/${this.modifiedName}/${mediaSource}`;
         mediaElement.autoplay = true; // Adjust autoplay based on your requirements
+        mediaElement.setAttribute('tabindex', '0');
 
         // Move imgIcon declaration here
         const imgIcon = document.createElement("img");
         imgIcon.alt = "Like";
         imgIcon.setAttribute("id", "ImgIconClick");
         imgIcon.src = "assets/icons/heart.svg";
+        imgIcon.setAttribute('role', 'button');
 
         imgIcon.addEventListener('click', () => {
             // Call the updateLike function when the button is clicked
             this.updateLike(imgIcon);
         });
 
+        
+
         this.totalLikes += this.media.likes;
 
         const imgDiv = document.createElement('article');
+        imgDiv.setAttribute('role', 'article');
+        
         const imgDivText = document.createElement('div');
         imgDivText.classList.add('imgDivText');
         const imgDivIcon = document.createElement('div');
