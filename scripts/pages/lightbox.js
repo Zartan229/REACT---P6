@@ -242,6 +242,7 @@ function showNextImage() {
 
   // Mettre à jour l'indice courant pour l'image suivante
   currentIndex = nextElementIndex;
+  mainElement.focus();
 }
 
 // Fonction JavaScript pour fermer la lightbox
