@@ -12,6 +12,9 @@ function openLightbox(event, clickedElement) {
     overlay = document.createElement("div"); //  Créer un élément div pour la superposition de la lightbox.
     overlay.setAttribute("aria-label", "Element closeup view");
     overlay.className = "lightboxOverlay"; // Ajouter une classe CSS à la superposition.
+
+
+
     overlay.onclick = closeLightbox; // Associer la fonction closeLightbox à un clic sur la superposition.
     document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
       element.setAttribute("tabindex", "-1");
@@ -25,6 +28,8 @@ function openLightbox(event, clickedElement) {
 
 
     document.body.appendChild(overlay); // Ajouter la superposition à la fin du corps du document.
+
+
 
     // Créer le conteneur de la lightbox
     container = document.createElement("div"); // Créer un élément div pour le conteneur de la lightbox.
@@ -87,7 +92,13 @@ function openLightbox(event, clickedElement) {
     container.appendChild(nextIcon);
     container.appendChild(pTitle);
   }
-
+  // Add focus event listener to the modal
+  overlay.addEventListener("focusout", function (event) {
+    if (!overlay.contains(event.relatedTarget)) {
+      // If the focus leaves the modal, set focus back to the first input field
+      mainElement.focus();
+    }
+  });
   mainElement.focus();
 
 // Function to handle arrow key navigation

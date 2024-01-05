@@ -95,7 +95,36 @@ async function showMediaPhotographer() {
     ul.appendChild(li1);
     ul.appendChild(li2);
     ul.appendChild(li3);
+// Function to handle key press event
+function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    
+    console.log(event.target.textContent);
+            // Sort the media based on the selected option
+            switch (event.target.textContent) {
+              case "Popularité":
+                filteredMedia.sort((a, b) => b.likes - a.likes);
+                break;
+              case "Date":
+                filteredMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
+                break;
+              case "Titre":
+                filteredMedia.sort((a, b) => a.title.localeCompare(b.title));
+                break;
+              default:
+                // Default to sorting by popularity
+                filteredMedia.sort((a, b) => b.likes - a.likes);
+            }
+    
+            // Re-render the sorted media
+            renderMedia(filteredMedia);
+          }
+  }
 
+// Add event listener to each list item
+li1.addEventListener("keydown", handleKeyPress);
+li2.addEventListener("keydown", handleKeyPress);
+li3.addEventListener("keydown", handleKeyPress);
     // Add a click event listener to the ul
     divDrop.addEventListener("click", function (event) {
       if (ul.style.display === "flex") {
