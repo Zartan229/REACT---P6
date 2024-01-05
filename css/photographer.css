@@ -168,6 +168,9 @@ h6{
   justify-content: space-between;
   padding: 35px;
   margin: auto;
+  width: 669px;
+  height: 900px;
+  margin-top: 61px;
 }
 
 .modal header {
