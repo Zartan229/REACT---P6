@@ -17,17 +17,17 @@
       </div>
     </main>
     <div id="contact_modal">
-			<div class="modal" aria-hidden="true">
+			<div class="modal" aria-hidden="true" role="dialog">
 				<header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" alt="closeModal" />
+          <img src="assets/icons/close.svg" onclick="closeModal()" alt="closeModal" aria-label="Close contact form" />
         </header>
 				<form id="formSection">
 					<div>
 						<label for="prenom">Prénom</label>
 						<input id="prenom" name="prenom" />
 					</div>
-          <button class="contact_button" onclick="buttonModal(event)">Envoyer</button>
+          <button class="contact_button" onclick="buttonModal(event)" aria-label="Send">Envoyer</button>
 				</form>
 			</div>
 		</div>    

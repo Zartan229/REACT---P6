@@ -149,42 +149,9 @@ async function showMediaPhotographer() {
 
       for (var i = 0; i < filteredMedia.length; i++) {
         const mediaFactoryInstance = new MediaFactory(filteredMedia[i], modifiedName, totalLikes);
-
-        /*  const image = filteredMedia[i].image;
-        const imgDiv = document.createElement("article");
-        const imgTag = document.createElement("img");
-        imgTag.alt = filteredMedia[i].title;
-        const imgDivText = document.createElement("div");
-        imgDivText.classList.add("imgDivText");
-        const imgDivIcon = document.createElement("div");
-        imgDivIcon.classList.add("imgDivIcon");
-        const imgTitle = document.createElement("h4");
-        const imgLikes = document.createElement("p");
-        imgLikes.textContent = filteredMedia[i].likes;
-        const imgIcon = document.createElement("img");
-        imgIcon.alt = "Like";
-        imgIcon.setAttribute("id", "ImgIconClick");
-        imgIcon.src = "assets/icons/heart.svg";
-        const imgGen = `assets/images/${modifiedName}/${image}`;
-        imgTag.src = imgGen;
-        imgTag.classList.add("imgDesign");
-        imgTag.setAttribute("id", "newImgTag");
-        imgTag.alt = filteredMedia[i].title;
-        imgTitle.textContent = filteredMedia[i].title;
-        imgTag.onclick = function (event) {
-          openLightbox(event, this);
-        };
-      console.log(totalLikes)
-         */ totalLikes = totalLikes + filteredMedia[i].likes;
+         totalLikes = totalLikes + filteredMedia[i].likes;
          divImage.appendChild(mediaFactoryInstance.imgDiv);
-      /* divImage.appendChild(imgDiv);
-          imgDiv.appendChild(imgTag);
-        imgDiv.appendChild(imgDivText);
-        imgDivText.appendChild(imgTitle);
-        imgDivText.appendChild(imgDivIcon);
-        imgDivIcon.appendChild(imgLikes);
-        imgDivIcon.appendChild(imgIcon);
-      */
+
       }
     }
 
@@ -218,22 +185,3 @@ async function showMediaPhotographer() {
 
 showMediaPhotographer();
 
-/*
-a.href = `./photographer.html?id=${id}`;
-const img = document.createElement("img");
-img.setAttribute("src", picture);
-img.alt = name;
-const h2 = document.createElement("h2");
-h2.textContent = name;
-const h3 = document.createElement("h3");
-h3.textContent = " " + city + ", " + country;
-const p = document.createElement("p");
-p.textContent = tagline;
-const pRice = document.createElement("p");
-pRice.textContent = price + "€/jour";
-article.appendChild(a);
-a.appendChild(img);
-a.appendChild(h2);
-article.appendChild(h3);
-article.appendChild(p);
-*/

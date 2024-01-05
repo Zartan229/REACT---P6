@@ -1,5 +1,4 @@
 // Construction de la balise image ou video en fonction du type de media
-// eslint-disable-next-line no-unused-vars
 export class MediaFactory {
     constructor(media, modifiedName) {
         this.media = media;
@@ -93,12 +92,6 @@ export class MediaFactory {
             // totalLikesElement.textContent = parseInt(totalLikesElement.textContent) + 1;
             prevSibling.setAttribute("data-updated", "true");
         }
-
-        // Update your UI or do other actions as needed
-       // console.log("Likes: " + this.totalLikes);
-        // Update the totalLikesElement text content (You need to have totalLikesElement declared and accessible here)
-        // h6.textContent = this.totalLikes;
-
         
     }
 }

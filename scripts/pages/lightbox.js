@@ -10,6 +10,7 @@ function openLightbox(event, clickedElement) {
   // Créer la superposition (overlay) de la lightbox si elle n'existe pas
   if (!overlay) {
     overlay = document.createElement("div"); //  Créer un élément div pour la superposition de la lightbox.
+    overlay.setAttribute("aria-label", "Element closeup view");
     overlay.className = "lightboxOverlay"; // Ajouter une classe CSS à la superposition.
     overlay.onclick = closeLightbox; // Associer la fonction closeLightbox à un clic sur la superposition.
     document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
@@ -54,6 +55,7 @@ function openLightbox(event, clickedElement) {
     prevIcon.src = "assets/icons/left.svg";
     prevIcon.alt = "Previous Image"
     prevIcon.classList.add("icon");
+    prevIcon.setAttribute('aria-label', 'Previous Image');
     prevIcon.onclick = function () {
       showPrevImage();
       prevIcon.classList.add("clicked");
@@ -66,7 +68,7 @@ function openLightbox(event, clickedElement) {
     const nextIcon = document.createElement("img"); // Créer une image pour le thumbnail.
     nextIcon.src = "assets/icons/right.svg";
     nextIcon.alt = "Next Image"
-    // Ajout une classe et gère le délai du changement de couleur
+    nextIcon.setAttribute('aria-label', 'Next Image');
     nextIcon.classList.add("icon");
     nextIcon.onclick = function () {
       showNextImage();
@@ -90,7 +92,6 @@ function openLightbox(event, clickedElement) {
 
 // Function to handle arrow key navigation
 function handleArrowKeys(event) {
-  console.log(event);
   switch (event.key) {
     case "4":
       showPrevImage();
@@ -242,7 +243,6 @@ function showNextImage() {
 
   // Mettre à jour l'indice courant pour l'image suivante
   currentIndex = nextElementIndex;
-  mainElement.focus();
 }
 
 // Fonction JavaScript pour fermer la lightbox

@@ -5,6 +5,7 @@ function displayModal() {
   modal.style.display = "block";
   modal.classList.add("lightboxOverlay");
   modal.classList.add("lightboxContainer");
+  
 
   // Function to create and append fields before the button
   function addFieldsBeforeButton() {
