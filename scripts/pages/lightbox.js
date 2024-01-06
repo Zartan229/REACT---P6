@@ -3,10 +3,12 @@ let elementArray; // Cette variable stockera un tableau d'éléments d'image pou
 let overlay; // Cette variable stockera l'élément HTML de la superposition (overlay) de la lightbox.
 let container; // Cette variable stockera l'élément HTML du conteneur de la lightbox.
 let mainElement; // Cette variable stockera l'élément HTML de l'image principale dans la lightbox.
-let currentIndex = 0; // Cette variable stockera l'index de l'image principale.
+// eslint-disable-next-line no-unused-vars 
+let currentIndex; // Cette variable stockera l'index de l'image principale.
 let pTitle;
 // Fonction javascript pour ouvrir la lightBox
-function openLightbox(event, clickedElement) {
+// eslint-disable-next-line no-unused-vars 
+export function openLightbox(event, clickedElement) {
   // Créer la superposition (overlay) de la lightbox si elle n'existe pas
   if (!overlay) {
     overlay = document.createElement("div"); //  Créer un élément div pour la superposition de la lightbox.
@@ -21,12 +23,6 @@ function openLightbox(event, clickedElement) {
     });
   
     // Set tabindex for modal elements to 0
-    const modalElements = document.querySelectorAll(".lightboxOverlay *");
-    modalElements.forEach(function (element) {
-      element.setAttribute("tabindex", "0");
-    });
-
-
     document.body.appendChild(overlay); // Ajouter la superposition à la fin du corps du document.
 
 
@@ -91,15 +87,9 @@ function openLightbox(event, clickedElement) {
     container.appendChild(mainElement);
     container.appendChild(nextIcon);
     container.appendChild(pTitle);
+    mainElement.focus();
   }
-  // Add focus event listener to the modal
-  overlay.addEventListener("focusout", function (event) {
-    if (!overlay.contains(event.relatedTarget)) {
-      // If the focus leaves the modal, set focus back to the first input field
-      mainElement.focus();
-    }
-  });
-  mainElement.focus();
+  
 
 // Function to handle arrow key navigation
 function handleArrowKeys(event) {
@@ -132,7 +122,7 @@ function handleArrowKeys(event) {
 
   // Prevent default link behavior
   event.preventDefault(); // Prevent the default behavior of the link when clicked.
-}
+}// eslint-disable-next-line no-unused-vars 
 function showImageAtIndex(index) {
   // Vérifie si l'indice est valide (dans les limites de l'array d'images)
   if (index >= 0 && index < elementArray.length) {
@@ -262,6 +252,7 @@ function closeLightbox(event) {
   document.querySelectorAll("body *").forEach(function (element) {
     element.setAttribute('tabindex', '0');
   })
+
   if (event.target.classList.contains("lightboxContainer") || event.key === 'Escape') {
     // Empêche le comportement de clic par défaut (par exemple, empêche un lien de se comporter comme un lien normal)
     event.preventDefault();

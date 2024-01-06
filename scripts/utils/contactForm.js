@@ -1,5 +1,6 @@
 let fieldsAdded = false;
-
+console.log("Before calling displayModal");
+// eslint-disable-next-line no-unused-vars 
 function displayModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "block";
@@ -110,18 +111,18 @@ function displayModal() {
   // Appelez la fonction pour gérer le focus
   manageFocus();
 }
-
+console.log("After calling displayModal");
+// eslint-disable-next-line no-unused-vars 
 function closeModal() {
   const modal = document.getElementById("contact_modal");
   modal.style.display = "none";
-
   document.querySelectorAll("body *").forEach(function (element) {
-    element.removeAttribute("tabindex");
     element.setAttribute('tabindex', '0');
     
   })
-}
 
+}
+// eslint-disable-next-line no-unused-vars 
 function buttonModal(event) {
   // Access the form data
   var nomValue = document.getElementById("nom");

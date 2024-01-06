@@ -1,5 +1,12 @@
 import { MediaFactory } from "../factory/mediaFactory.js";
 
+window.onload = function () {
+  document.querySelectorAll("body *").forEach(function (element) {
+    element.setAttribute('tabindex', '0');
+  });
+};
+
+
 // Function to extract the photographer ID from the URL
 async function GrabId() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -96,6 +103,7 @@ async function showMediaPhotographer() {
     ul.appendChild(li2);
     ul.appendChild(li3);
 // Function to handle key press event
+// eslint-disable-next-line no-inner-declarations
 function handleKeyPress(event) {
   if (event.key === "Enter") {
     
@@ -125,6 +133,27 @@ function handleKeyPress(event) {
 li1.addEventListener("keydown", handleKeyPress);
 li2.addEventListener("keydown", handleKeyPress);
 li3.addEventListener("keydown", handleKeyPress);
+divDrop.addEventListener("keydown", function (event) {
+  // Check if the pressed key is "Escape"
+  if (event.key === "Escape") {
+    // Hide the ul element if it is currently displayed
+    if (ul.style.display === "flex") {
+      ul.style.display = "none";
+    }
+  }
+});
+// Event listener for clicks outside the divDrop
+document.addEventListener("click", function (event) {
+  var targetElement = event.target;
+
+  // Check if the clicked element is not inside divDrop
+  if (!divDrop.contains(targetElement)) {
+    // Hide the ul element if it is currently displayed
+    if (ul.style.display === "flex") {
+      ul.style.display = "none";
+    }
+  }
+});
     // Add a click event listener to the ul
     divDrop.addEventListener("click", function (event) {
       if (ul.style.display === "flex") {
@@ -171,7 +200,7 @@ li3.addEventListener("keydown", handleKeyPress);
 
     // Initial render of media based on default sorting (by popularity)
     renderMedia(filteredMedia);
-
+// eslint-disable-next-line no-inner-declarations
     function renderMedia(filteredMedia) {
       // Clear existing media items
       divImage.innerHTML = "";

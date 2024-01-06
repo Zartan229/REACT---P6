@@ -1,3 +1,5 @@
+import { photographerTemplate } from "../templates/photographer.js";
+  
   async function getPhotographers() {
     try {
       const response = await fetch('data/photographers.json'); // Replace with the correct file path or URL
@@ -17,6 +19,7 @@
         const photographersSection = document.querySelector(".photographer_section");
 
         photographers.forEach((photographer) => {
+          // eslint-disable-next-line no-undef
             const photographerModel = photographerTemplate(photographer);
             const userCardDOM = photographerModel.getUserCardDOM();
             photographersSection.appendChild(userCardDOM);

@@ -1,3 +1,5 @@
+import { openLightbox } from "../pages/lightbox.js";
+
 // Construction de la balise image ou video en fonction du type de media
 export class MediaFactory {
     constructor(media, modifiedName) {
