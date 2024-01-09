@@ -21,7 +21,7 @@ export function openLightbox(event, clickedElement) {
     document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
       element.setAttribute("tabindex", "-1");
     });
-  
+    
     // Set tabindex for modal elements to 0
     document.body.appendChild(overlay); // Ajouter la superposition à la fin du corps du document.
 
@@ -50,13 +50,15 @@ export function openLightbox(event, clickedElement) {
       mainElement.className = "lightboxImage";
     }
 
-    mainElement.setAttribute('aria-label', 'Image principal');
+    mainElement.setAttribute('aria-label', mainElement.title);
+    mainElement.setAttribute('tabindex', '0');
     // Créer l'image pour le svg précédent
     const prevIcon = document.createElement("img"); // Créer une image pour le thumbnail.
     prevIcon.src = "assets/icons/left.svg";
     prevIcon.alt = "Previous Image"
     prevIcon.classList.add("icon");
     prevIcon.setAttribute('aria-label', 'Previous Image');
+    prevIcon.setAttribute('tabindex', '0');
     prevIcon.onclick = function () {
       showPrevImage();
       prevIcon.classList.add("clicked");
@@ -71,6 +73,7 @@ export function openLightbox(event, clickedElement) {
     nextIcon.alt = "Next Image"
     nextIcon.setAttribute('aria-label', 'Next Image');
     nextIcon.classList.add("icon");
+    nextIcon.setAttribute('tabindex', '0');
     nextIcon.onclick = function () {
       showNextImage();
       nextIcon.classList.add("clicked");
@@ -122,7 +125,9 @@ function handleArrowKeys(event) {
 
   // Prevent default link behavior
   event.preventDefault(); // Prevent the default behavior of the link when clicked.
-}// eslint-disable-next-line no-unused-vars 
+}
+/*
+// eslint-disable-next-line no-unused-vars 
 function showImageAtIndex(index) {
   // Vérifie si l'indice est valide (dans les limites de l'array d'images)
   if (index >= 0 && index < elementArray.length) {
@@ -138,7 +143,7 @@ function showImageAtIndex(index) {
     currentIndex = index;
   }
 }
-
+*/
 // Fonction JavaScript pour afficher l'image précédente
 function showPrevImage() {
   // Obtenir l'indice de l'image actuellement affichée dans elementArray
@@ -169,7 +174,8 @@ function showPrevImage() {
     mainElement.alt = prevImage.alt;
     mainElement.className = "lightboxImage";
   }
-  mainElement.setAttribute('aria-label', 'Image principal');
+  mainElement.setAttribute('aria-label', mainElement.title);
+  mainElement.setAttribute('tabindex', '0');
   // Get the third element in the container
   var thirdElement = container.children[2];
 
@@ -227,7 +233,8 @@ function showNextImage() {
   }
   // Get the third element in the container
   var thirdElement = container.children[2];
-  mainElement.setAttribute('aria-label', 'Image principal');
+  mainElement.setAttribute('aria-label', mainElement.title);
+  mainElement.setAttribute('tabindex', '0');
   // Insert mainElement before the third element in the container
   container.insertBefore(mainElement, thirdElement);
 
@@ -248,13 +255,21 @@ function showNextImage() {
 
 // Fonction JavaScript pour fermer la lightbox
 function closeLightbox(event) {
-  // Vérifie si l'élément ciblé par l'événement a la classe CSS 'lightbox-container'
-  document.querySelectorAll("body *").forEach(function (element) {
-    element.setAttribute('tabindex', '0');
-  })
-
   if (event.target.classList.contains("lightboxContainer") || event.key === 'Escape') {
-    // Empêche le comportement de clic par défaut (par exemple, empêche un lien de se comporter comme un lien normal)
+  // Vérifie si l'élément ciblé par l'événement a la classe CSS 'lightbox-container'
+  document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
+    // Reset tabindex to its original value or remove the attribute
+    element.removeAttribute("tabindex");
+    
+  });
+
+  document.querySelectorAll(".divImage *").forEach(function (element) {
+    // Reset tabindex to its original value or remove the attribute
+    element.setAttribute('tabindex', '0');
+});
+
+
+
     event.preventDefault();
 
     // Supprime l'overlay du corps du document

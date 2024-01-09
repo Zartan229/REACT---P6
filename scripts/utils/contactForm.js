@@ -1,7 +1,7 @@
 let fieldsAdded = false;
-console.log("Before calling displayModal");
 // eslint-disable-next-line no-unused-vars 
 function displayModal() {
+  
   const modal = document.getElementById("contact_modal");
   modal.style.display = "block";
   modal.classList.add("lightboxOverlay");
@@ -68,21 +68,23 @@ function displayModal() {
     return div;
   }
 
-  // Améliorez la navigation au clavier
-  const formFields = document.querySelectorAll("#formSection input, #formSection textarea");
-  formFields.forEach(function (field, index, fields) {
-    field.addEventListener("keydown", function (event) {
-      if (event.key === "Tab" && !event.shiftKey) {
-        // Si la touche "Tab" est pressée sans "Shift", passez au champ suivant
+// Améliorez la navigation au clavier
+const formFields = document.querySelectorAll("#formSection input, #formSection textarea");
+formFields.forEach(function (field, index, fields) {
+  field.addEventListener("keydown", function (event) {
+    if (event.key === "Tab") {
+      if (!event.shiftKey && index < fields.length - 1) {
+        // If the "Tab" key is pressed without "Shift" and not at the last field
         fields[index + 1].focus();
         event.preventDefault();
-      } else if (event.key === "Tab" && event.shiftKey) {
-        // Si la touche "Tab" est pressée avec "Shift", passez au champ précédent
+      } else if (event.shiftKey && index > 0) {
+        // If the "Tab" key is pressed with "Shift" and not at the first field
         fields[index - 1].focus();
         event.preventDefault();
       }
-    });
+    }
   });
+});
 
   // Ajoutez la gestion du clic en dehors du modal
   window.addEventListener("click", function (event) {
@@ -111,7 +113,6 @@ function displayModal() {
   // Appelez la fonction pour gérer le focus
   manageFocus();
 }
-console.log("After calling displayModal");
 // eslint-disable-next-line no-unused-vars 
 function closeModal() {
   const modal = document.getElementById("contact_modal");

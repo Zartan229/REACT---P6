@@ -36,6 +36,7 @@ export class MediaFactory {
         imgIcon.setAttribute("id", "ImgIconClick");
         imgIcon.src = "assets/icons/heart.svg";
         imgIcon.setAttribute('role', 'button');
+        imgIcon.setAttribute('tabindex', '0');
 
         imgIcon.addEventListener('click', () => {
             // Call the updateLike function when the button is clicked

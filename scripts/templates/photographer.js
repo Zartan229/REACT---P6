@@ -1,6 +1,5 @@
 export function photographerTemplate(data) {
   const { name, portrait, city, country, price, tagline, id } = data;
-  console.log({ name, portrait, city, country, price, tagline, id });
   const picture = `assets/photographers/${portrait}`;
 
   function getUserCardDOM() {

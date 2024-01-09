@@ -14,7 +14,7 @@ async function GrabId() {
   return id;
 }
 
-async function getMediaByPhotographerId() {
+export async function getMediaByPhotographerId() {
   try {
     // Get the photographer ID using GrabId
     const id = await GrabId();
@@ -106,8 +106,6 @@ async function showMediaPhotographer() {
 // eslint-disable-next-line no-inner-declarations
 function handleKeyPress(event) {
   if (event.key === "Enter") {
-    
-    console.log(event.target.textContent);
             // Sort the media based on the selected option
             switch (event.target.textContent) {
               case "Popularité":
