@@ -18,11 +18,11 @@ export function openLightbox(event, clickedElement) {
 
 
     overlay.onclick = closeLightbox; // Associer la fonction closeLightbox à un clic sur la superposition.
+    // Empêche le reste de la page d'ètre séléctionner a la tabulation
     document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
       element.setAttribute("tabindex", "-1");
     });
     
-    // Set tabindex for modal elements to 0
     document.body.appendChild(overlay); // Ajouter la superposition à la fin du corps du document.
 
 
@@ -161,7 +161,6 @@ function showPrevImage() {
   const prevImage = elementArray[prevElementIndex];
 
   mainElement.innerHTML = "";
-  // Now, you can destroy the element
   mainElement.remove();
   if (prevImage.tagName === "VIDEO") {
     mainElement = document.createElement("video");
@@ -183,12 +182,10 @@ function showPrevImage() {
   container.insertBefore(mainElement, thirdElement);
 
   pTitle.innerHTML = "";
-  // Now, you can destroy the element
   pTitle.remove();
   pTitle = document.createElement("p");
   pTitle.textContent = mainElement.alt;
   pTitle.classList.add("titleOverlay");
-  // Insert mainElement before the third element in the container
   container.appendChild(pTitle);
 
   // Mettre à jour la variable currentElement avec l'image précédentee
@@ -218,7 +215,6 @@ function showNextImage() {
   const nextImage = elementArray[nextElementIndex];
 
   mainElement.innerHTML = "";
-  // Now, you can destroy the element
   mainElement.remove();
   if (nextImage.tagName === "VIDEO") {
     mainElement = document.createElement("video");
@@ -231,7 +227,6 @@ function showNextImage() {
     mainElement.alt = nextImage.alt;
     mainElement.className = "lightboxImage";
   }
-  // Get the third element in the container
   var thirdElement = container.children[2];
   mainElement.setAttribute('aria-label', mainElement.title);
   mainElement.setAttribute('tabindex', '0');
@@ -239,12 +234,10 @@ function showNextImage() {
   container.insertBefore(mainElement, thirdElement);
 
   pTitle.innerHTML = "";
-  // Now, you can destroy the element
   pTitle.remove();
   pTitle = document.createElement("p");
   pTitle.textContent = mainElement.alt;
   pTitle.classList.add("titleOverlay");
-  // Insert mainElement before the third element in the container
   container.appendChild(pTitle);
   // Mettre à jour la variable currentElement avec l'image suivante
   currentElement = nextImage;
@@ -264,7 +257,7 @@ function closeLightbox(event) {
   });
 
   document.querySelectorAll(".divImage *").forEach(function (element) {
-    // Reset tabindex to its original value or remove the attribute
+    // Réinitialiser tabindex à sa valeur d'origine
     element.setAttribute('tabindex', '0');
 });
 

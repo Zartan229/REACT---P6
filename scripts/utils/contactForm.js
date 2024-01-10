@@ -8,24 +8,25 @@ function displayModal() {
   modal.classList.add("lightboxContainer");
   
 
-  // Function to create and append fields before the button
+  
+// Fonction pour créer et ajouter des champs avant le bouton
   function addFieldsBeforeButton() {
     if (fieldsAdded) {
-      return; // Fields already added, exit the function
+      return; // Les champs ont déjà été ajoutés, quitter la fonction
     }
 
     var form = document.getElementById("formSection");
 
-    // Add "Nom" field before the button
+
     var divNom = createField("Nom", "nom");
     form.insertBefore(divNom, form.lastElementChild);
 
-    // Add "Email" field before the button
+
     var divEmail = createField("Email", "email");
     form.insertBefore(divEmail, form.lastElementChild);
 
-    // Add "Message" field before the button
-    var divMessage = createField("Message", "message", true); // Use true to create a textarea for the message
+ 
+    var divMessage = createField("Message", "message", true);
     form.insertBefore(divMessage, form.lastElementChild);
 
     fieldsAdded = true;
@@ -35,23 +36,23 @@ function displayModal() {
     element.setAttribute("tabindex", "-1");
   });
 
-  // Set tabindex for modal elements to 0
+  
+// Définir l'attribut tabindex à 0 pour les éléments modaux
   const modalElements = document.querySelectorAll("#contact_modal *");
   modalElements.forEach(function (element) {
     element.setAttribute("tabindex", "0");
   });
 
-  // Add focus event listener to the modal
+  // Ajouter un écouteur d'événements de focus au modal
   modal.addEventListener("focusout", function (event) {
-    const firstInput = document.getElementById("prenom"); // Replace with the ID of the first input field
+    const firstInput = document.getElementById("prenom");
     if (!modal.contains(event.relatedTarget)) {
-      // If the focus leaves the modal, set focus back to the first input field
       firstInput.focus();
     }
   });
 
 
-  // Function to create a field (label + input or textarea)
+
   function createField(labelText, inputName, isTextarea) {
     var div = document.createElement("div");
     var label = document.createElement("label");
@@ -61,7 +62,7 @@ function displayModal() {
     var inputElement = isTextarea ? document.createElement("textarea") : document.createElement("input");
     inputElement.setAttribute("id", inputName);
     inputElement.setAttribute("name", inputName);
-    inputElement.setAttribute("aria-label", inputName); // Set aria-label attribute
+    inputElement.setAttribute("aria-label", inputName); 
     div.appendChild(label);
     div.appendChild(inputElement);
 
@@ -74,11 +75,11 @@ formFields.forEach(function (field, index, fields) {
   field.addEventListener("keydown", function (event) {
     if (event.key === "Tab") {
       if (!event.shiftKey && index < fields.length - 1) {
-        // If the "Tab" key is pressed without "Shift" and not at the last field
+        // Si la touche "Tab" est pressée sans la touche "Shift" et que ce n'est pas le dernier champ
         fields[index + 1].focus();
         event.preventDefault();
       } else if (event.shiftKey && index > 0) {
-        // If the "Tab" key is pressed with "Shift" and not at the first field
+        // Si la touche "Tab" est pressée avec la touche "Shift" et que ce n'est pas le premier champ
         fields[index - 1].focus();
         event.preventDefault();
       }
@@ -108,7 +109,7 @@ formFields.forEach(function (field, index, fields) {
     firstInput.focus();
   }
 
-  // Call the function to add fields before the button
+ 
   addFieldsBeforeButton();
   // Appelez la fonction pour gérer le focus
   manageFocus();
@@ -125,21 +126,18 @@ function closeModal() {
 }
 // eslint-disable-next-line no-unused-vars 
 function buttonModal(event) {
-  // Access the form data
+  // Accéder aux données du formulaire
   var nomValue = document.getElementById("nom");
   var prenomValue = document.getElementById("prenom");
   var emailValue = document.getElementById("email");
   var messageValue = document.getElementById("message");
 
-  // Check if elements exist
+
   if (nomValue && prenomValue && emailValue && messageValue) {
-    // Log the form data to the console
     console.log("Nom:", nomValue.value);
     console.log("Prénom:", prenomValue.value);
     console.log("Email:", emailValue.value);
     console.log("Message:", messageValue.value);
-
-    // Prevent the default form submission
     event.preventDefault();
   } else {
     console.error("One or more form elements not found.");

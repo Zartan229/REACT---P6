@@ -21,6 +21,9 @@ export function photographerTemplate(data) {
     article.appendChild(a);
     a.appendChild(img);
     a.appendChild(h2);
+    h3.setAttribute('tabindex', '0');
+    p.setAttribute('tabindex', '0');
+    pRice.setAttribute('tabindex', '0');
     article.appendChild(h3);
     article.appendChild(p);
     article.appendChild(pRice);

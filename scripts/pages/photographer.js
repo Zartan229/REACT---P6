@@ -2,12 +2,11 @@ import { MediaFactory } from "../factory/mediaFactory.js";
 
 window.onload = function () {
   document.querySelectorAll("body *").forEach(function (element) {
-    element.setAttribute('tabindex', '0');
+    element.setAttribute("tabindex", "0");
   });
 };
 
-
-// Function to extract the photographer ID from the URL
+// Fonction pour extraire l'identifiant du photographe depuis l'URL
 async function GrabId() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
@@ -16,32 +15,29 @@ async function GrabId() {
 
 export async function getMediaByPhotographerId() {
   try {
-    // Get the photographer ID using GrabId
+    // Obtenir l'identifiant du photographe à l'aide de GrabId
     const id = await GrabId();
 
-    const response = await fetch("data/photographers.json"); // Replace with the correct file path or URL
+    const response = await fetch("data/photographers.json");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
     const data = await response.json();
 
-    // Filter media by photographerId
+    // Filtrer les médias par l'identifiant du photographe
     const filteredMedia = data.media.filter((media) => media.photographerId == id);
     const filterPhotographer = data.photographers.find((photographer) => photographer.id == id);
 
-    return { filteredMedia, filterPhotographer }; // Return the filtered data
+    return { filteredMedia, filterPhotographer };
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
-    throw error; // Re-throw the error for further handling if needed
+    throw error;
   }
 }
-
-
 
 async function showMediaPhotographer() {
   try {
     const { filteredMedia, filterPhotographer } = await getMediaByPhotographerId();
-
 
     const picture = `assets/photographers/${filterPhotographer.portrait}`;
 
@@ -59,7 +55,7 @@ async function showMediaPhotographer() {
     div.appendChild(h3);
     div.appendChild(p);
 
-    // Insert the div as the first child of the box
+    // Insérer la balise <div> comme premier enfant de la boîte
     box.insertBefore(div, box.firstChild);
 
     const img = document.createElement("img");
@@ -102,57 +98,47 @@ async function showMediaPhotographer() {
     ul.appendChild(li1);
     ul.appendChild(li2);
     ul.appendChild(li3);
-// Function to handle key press event
-// eslint-disable-next-line no-inner-declarations
-function handleKeyPress(event) {
-  if (event.key === "Enter") {
-            // Sort the media based on the selected option
-            switch (event.target.textContent) {
-              case "Popularité":
-                filteredMedia.sort((a, b) => b.likes - a.likes);
-                break;
-              case "Date":
-                filteredMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
-                break;
-              case "Titre":
-                filteredMedia.sort((a, b) => a.title.localeCompare(b.title));
-                break;
-              default:
-                // Default to sorting by popularity
-                filteredMedia.sort((a, b) => b.likes - a.likes);
-            }
-    
-            // Re-render the sorted media
-            renderMedia(filteredMedia);
-          }
-  }
 
-// Add event listener to each list item
-li1.addEventListener("keydown", handleKeyPress);
-li2.addEventListener("keydown", handleKeyPress);
-li3.addEventListener("keydown", handleKeyPress);
-divDrop.addEventListener("keydown", function (event) {
-  // Check if the pressed key is "Escape"
-  if (event.key === "Escape") {
-    // Hide the ul element if it is currently displayed
-    if (ul.style.display === "flex") {
-      ul.style.display = "none";
-    }
-  }
-});
-// Event listener for clicks outside the divDrop
-document.addEventListener("click", function (event) {
-  var targetElement = event.target;
+    // Fonction pour gérer l'événement de pression de touche
+    // eslint-disable-next-line no-inner-declarations
+    function handleKeyPress(event) {
+      if (event.key === "Enter") {
+        switch (event.target.textContent) {
+          case "Popularité":
+            filteredMedia.sort((a, b) => b.likes - a.likes);
+            break;
+          case "Date":
+            filteredMedia.sort((a, b) => new Date(b.date) - new Date(a.date));
+            break;
+          case "Titre":
+            filteredMedia.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          default:
+            filteredMedia.sort((a, b) => b.likes - a.likes);
+        }
 
-  // Check if the clicked element is not inside divDrop
-  if (!divDrop.contains(targetElement)) {
-    // Hide the ul element if it is currently displayed
-    if (ul.style.display === "flex") {
-      ul.style.display = "none";
+        renderMedia(filteredMedia);
+      }
     }
-  }
-});
-    // Add a click event listener to the ul
+// Ajouter un event listener d'événements à chaque élément de liste
+    li1.addEventListener("keydown", handleKeyPress);
+    li2.addEventListener("keydown", handleKeyPress);
+    li3.addEventListener("keydown", handleKeyPress);
+    divDrop.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        if (ul.style.display === "flex") {
+          ul.style.display = "none";
+        }
+      }
+    });
+    document.addEventListener("click", function (event) {
+      var targetElement = event.target;
+      if (!divDrop.contains(targetElement)) {
+        if (ul.style.display === "flex") {
+          ul.style.display = "none";
+        }
+      }
+    });
     divDrop.addEventListener("click", function (event) {
       if (ul.style.display === "flex") {
         ul.style.display = "none";
@@ -161,9 +147,9 @@ document.addEventListener("click", function (event) {
       }
       if (event.target.tagName === "LI") {
         const clickedLi = event.target;
-        button.textContent = clickedLi.textContent; // Update the button text
+        button.textContent = clickedLi.textContent;
 
-        // Sort the media based on the selected option
+        // Trier les médias en fonction de l'option sélectionnée
         switch (clickedLi.textContent) {
           case "Popularité":
             filteredMedia.sort((a, b) => b.likes - a.likes);
@@ -175,11 +161,9 @@ document.addEventListener("click", function (event) {
             filteredMedia.sort((a, b) => a.title.localeCompare(b.title));
             break;
           default:
-            // Default to sorting by popularity
+            // Par défaut, trier par popularité
             filteredMedia.sort((a, b) => b.likes - a.likes);
         }
-
-        // Re-render the sorted media
         renderMedia(filteredMedia);
       }
     });
@@ -195,19 +179,16 @@ document.addEventListener("click", function (event) {
     var modifiedName = name.replace(/-/g, " ");
 
     var totalLikes = 0;
-
-    // Initial render of media based on default sorting (by popularity)
     renderMedia(filteredMedia);
-// eslint-disable-next-line no-inner-declarations
+    // eslint-disable-next-line no-inner-declarations
     function renderMedia(filteredMedia) {
-      // Clear existing media items
+
       divImage.innerHTML = "";
 
       for (var i = 0; i < filteredMedia.length; i++) {
         const mediaFactoryInstance = new MediaFactory(filteredMedia[i], modifiedName, totalLikes);
-         totalLikes = totalLikes + filteredMedia[i].likes;
-         divImage.appendChild(mediaFactoryInstance.imgDiv);
-
+        totalLikes = totalLikes + filteredMedia[i].likes;
+        divImage.appendChild(mediaFactoryInstance.imgDiv);
       }
     }
 
@@ -240,4 +221,3 @@ document.addEventListener("click", function (event) {
 }
 
 showMediaPhotographer();
-

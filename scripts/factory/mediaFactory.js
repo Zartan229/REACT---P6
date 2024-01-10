@@ -12,7 +12,7 @@ export class MediaFactory {
     createMediaFactory() {
         const mediaType = this.media;
         let currentMedia, createdElement;
-
+        // Si media type image, créer une balise image, sinon video créer une balise vidéo
         if (mediaType.image) {
             currentMedia = this.media.image;
             createdElement = document.createElement('img');
@@ -28,9 +28,10 @@ export class MediaFactory {
         mediaElement.setAttribute('id', 'newImgTag');
         mediaElement.src = `assets/images/${this.modifiedName}/${mediaSource}`;
         mediaElement.autoplay = true; // Adjust autoplay based on your requirements
-        mediaElement.setAttribute('tabindex', '0');
+        mediaElement.setAttribute('tabindex', '0');//Pour la navigation 
+        mediaElement.setAttribute('aria-label', this.media.title);
 
-        // Move imgIcon declaration here
+        
         const imgIcon = document.createElement("img");
         imgIcon.alt = "Like";
         imgIcon.setAttribute("id", "ImgIconClick");
@@ -39,7 +40,7 @@ export class MediaFactory {
         imgIcon.setAttribute('tabindex', '0');
 
         imgIcon.addEventListener('click', () => {
-            // Call the updateLike function when the button is clicked
+            // Met a jour updateLike au clique
             this.updateLike(imgIcon);
         });
 
@@ -71,7 +72,7 @@ export class MediaFactory {
             // Call the updateLike function when the button is clicked
             this.updateLike(imgIcon);
         });
-
+        //Ajoute onclick a mediaElement pour la lightbox 
         mediaElement.onclick = function (event) {
             openLightbox(event, this);
           };
@@ -79,20 +80,19 @@ export class MediaFactory {
         return imgDiv;
     }
 
-    // Function to update like count and display
+    // Fonction pour mettre à jour le nombre de "j'aime" et l'afficher
     updateLike(imgIcon) {
         var prevSibling = imgIcon.previousElementSibling;
 
-        // Check if the previous sibling is a <p> element and hasn't been updated before
+        // Vérifier si le précédent frère (sibling) est un élément <p> qui n'a pas été mis à jour auparavant
         if (prevSibling && prevSibling.tagName === "P" && !prevSibling.hasAttribute("data-updated")) {
-            // Update the content of the previous sibling
+            // Mettre à jour le contenu du frère précédent
             prevSibling.textContent++;
-            this.totalLikes++; // Use this to reference the class property
-            // Set an attribute to mark the previous sibling as updated
+            this.totalLikes++; // Utiliser ceci pour référencer la propriété de classe
+            // Définir un attribut pour indiquer que le frère précédent a été mis à jour
 
             const totalLikesElement = document.querySelector(".countLike");
             totalLikesElement.textContent = parseInt(totalLikesElement.textContent) + 1;
-            // totalLikesElement.textContent = parseInt(totalLikesElement.textContent) + 1;
             prevSibling.setAttribute("data-updated", "true");
         }
         
