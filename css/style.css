@@ -75,3 +75,8 @@ h1 {
     object-fit: cover;
     border-radius: 152px;
 }
+.closeRed{
+    position: absolute;
+    top: 32%;
+    left: 84%;
+}

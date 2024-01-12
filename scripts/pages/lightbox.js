@@ -85,9 +85,21 @@ export function openLightbox(event, clickedElement) {
     pTitle = document.createElement("p");
     pTitle.textContent = clickedElement.alt;
     pTitle.classList.add("titleOverlay");
+
+    const closeRed = document.createElement("img");
+    closeRed.src = "assets/icons/closeRed.svg";
+    closeRed.alt = "Fermer la lightbox";
+    closeRed.setAttribute('aria-label', 'Next Image');
+    closeRed.classList.add("closeRed");
+    closeRed.setAttribute('tabindex', '0');
+    closeRed.onclick = function (event) {
+      closeLightbox(event);
+    };
+
     // Append les bouton de navigation au container et l'image principale au millieu
     container.appendChild(prevIcon);
     container.appendChild(mainElement);
+    container.appendChild(closeRed)
     container.appendChild(nextIcon);
     container.appendChild(pTitle);
     mainElement.focus();
@@ -97,10 +109,10 @@ export function openLightbox(event, clickedElement) {
 // Function to handle arrow key navigation
 function handleArrowKeys(event) {
   switch (event.key) {
-    case "4":
+    case "ArrowLeft":
       showPrevImage();
       break;
-    case "6":
+    case "ArrowRight":
       showNextImage();
       break;
   }
@@ -248,7 +260,7 @@ function showNextImage() {
 
 // Fonction JavaScript pour fermer la lightbox
 function closeLightbox(event) {
-  if (event.target.classList.contains("lightboxContainer") || event.key === 'Escape') {
+  if (event.target.classList.contains("lightboxContainer") || event.key === 'Escape' || event.target.classList.contains("closeRed")) {
   // Vérifie si l'élément ciblé par l'événement a la classe CSS 'lightbox-container'
   document.querySelectorAll("body *:not(.lightboxOverlay *)").forEach(function (element) {
     // Reset tabindex to its original value or remove the attribute
@@ -265,10 +277,11 @@ function closeLightbox(event) {
 
     event.preventDefault();
 
+    
     // Supprime l'overlay du corps du document
-    document.body.removeChild(overlay);
-
-    // Réinitialise la variable overlay à null pour permettre la recréation de la lightbox si nécessaire
-    overlay = null;
+    if (overlay && overlay.parentNode) {
+      document.body.removeChild(overlay);
+      overlay = null; // Reset the overlay variable
+    }
   }
 }
